@@ -3,8 +3,8 @@
 
 학생들이 strings 과 structures 구문을 외워 기말고사를 잘 준비할 수 있도록 유도하는 퀴즈
 이 범위에서는 구문을 중심으로 다음 항목을 다룹니다.
-- 문자열(문자열 조작 기능 제외)
-- 구조(구조 변수 및 포인터 제외)
+- 문자열(문자열 조작 기능 포함)
+- 구조(구조 변수 및 포인터 포함)
 
 비공개 시험. 다음은 허용되지 않습니다.
 - 모든 문서 액세스(강의 슬라이드, 대화 열기 등)
@@ -437,7 +437,10 @@ int strncmp( const char *lhs, const char *rhs, size_t count );
 
         The operand of * should be a pointer.
 
-## [Structure]
+
+
+
+## [Structure
 
 ### typedef
 *       void * malloc(size_t size);
@@ -497,6 +500,147 @@ int strncmp( const char *lhs, const char *rhs, size_t count );
     typename var_name;
 
         경우 2 : STUDENT student[50];
-        
+
+* Accessing Structures
+
+        typedef struct{
+            int x;
+            int y;
+        }Point;
+
+        typedef struct{
+            int width;
+            int height;
+        }Size;
+
+        Size Getsize(Point p1, Point p2){
+            Size s;
+            s.width = abs(p1.x-p2.x);
+            s.height = abs(p1.y-p1.y);
+
+            return s;
+        }
+
+Example : Multiply Fractions
+
+        // numerator, denominator
+        #include <stdio.h>
+        typedef struct{
+            int numerator;
+            int denominator;
+        }Fraction;
+
+        int main(){
+
+            Fraction fr1;
+            Fraction fr2;
+            Fraction res;
+
+            printf("Key first fraction in the form of x/y: ");
+            scanf("%d/%d", &fr1.numerator, &fr1.denominator);
+            printf("Key second fraction in the form of x/y: ");
+            scanf("%d/%d", &fr2.numerator, &fr2.denominator);
+
+            res.numerator = fr1.numerator * fr2.numerator;
+            res.denominator = fr1.denominator * fr2.denominator;
+
+            printf("\nThe result of %d/%d * %d/%d is %d/%d",fr1.numerator,fr1.denominator,fr2.numerator,fr2.denominator,res.numerator,res.denominator);
+
+            return 0;
+        }
+
+* Pointer To Structures
+
+        typedef struct{
+            int X;
+            int Y;
+            float t;
+            char u;
+        }SAMPLE;
+
+        ...
+        SAMPLE sam1;
+        SAMPLE* ptr = NULL;
+        ...
+        ptr = &sam1;
+        ...
+
+
+        따라서 2가지로 나눠서 볼 수 있음
+        1. sma1.x
+        2. (*ptr).x  --> *ptr.x (incorrect)
+        (*pointerName).fieldName = pointerName -> fieldName
+
+
+Example : Clock
+
+    #include <stdio.h>
+
+    typedef struct{
+        int hr;
+        int min;
+        int sec;
+    }CLOCK;
+
+    void increment(CLOCK* pClock);
+    void show(CLOCK* pClock);
+
+    int main(){
+
+        int i = 0;
+        CLOCK clock = {14,38,56};
+
+        for(i=0; i<6; ++i){
+            increment(&clock);
+            show(&clock);
+        }
+
+        return 0;
+    }
+
+    void increment(CLOCK *pClock){
+        (pClock->sec) ++;
+        if(pClock->sec == 60){
+            pClock->sec = 0;
+            (pClock->min)++;
+            if(pClock->min == 60){
+                pClock->min = 0;
+                (pCLock->hr)++;
+                if(pClock->hr == 60){
+                    pClock->hr = 0;
+                }
+            }
+        }
+    }
+
+    void show (CLOCK *PClock){
+        printf("%02d:%02d:%02d\n",pClock->hr,pClock->min,pClock->sec);
+    }
+
+
+* Nested Structures
+
+        typedef struct{
+            int month;
+            int day;
+            int year;
+        }Date;
+
+        typedef struct{
+            int hour;
+            int min;
+            int sec;
+        }Time;
+
+        typedef struct{
+            Date date;
+            Time time;
+        }Stamp;
+
+
+        ex) Stamp stamp;
+        stamp.date.month = 11;
+
 ### Unions
 
+* 
