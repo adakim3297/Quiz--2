@@ -1,4 +1,4 @@
-# Quiz-2 정리
+# Quiz 정리
 <주의사항>
 
 학생들이 strings 과 structures 구문을 외워 기말고사를 잘 준비할 수 있도록 유도하는 퀴즈
@@ -140,123 +140,314 @@
 
     123 + 456 = 579
     "123" + "456" = "123456"
-    
-    
-    
-    
-    #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define FILE_NAME "studentInfo.txt"
 
-#define MAX_STUDENT 512
 
-char ID[MAX_STUDENT][16] = { 0 };
-char first_name[MAX_STUDENT][64] = { 0 };
-char second_name[MAX_STUDENT][64] = { 0 };
-char tel[MAX_STUDENT][32] = { 0 };
-int n = 0;
 
-int main(){
+        #include <stdio.h>
 
-    FILE *fp = fopen(FILE_NAME,"r");
-    if(fp == NULL){
+        int my_strlen(char str[]);
+        char* my_strcpy(char dest[], char src[]);
+        char* my_strcat(char dest[], char src[]);
+        int my_strcmp(char dest[], char src[]);
+
+        int main()
+        {
+            char str1[] = "HELLO";
+            char str2[] = "ABCDE";
+            char str3[256] = "";
+
+            printf("my_strlen(str1) = %d\n", my_strlen(str1)); // 5
+
+            my_strcpy(str3, str1);
+            printf("str3 = %s\n", str3); // HELLO
+
+
+            printf("my_strcmp(str1, str3) = %d\n", my_strcmp(str1, str3)); // 0 ; because same string
+            printf("my_strcmp(str1, str2) = %d\n", my_strcmp(str1, str2)); // positive 
+            printf("my_strcmp(str2, str1) = %d\n", my_strcmp(str2, str1)); // negative
+
+            my_strcat(str3, str2);
+            printf("str3 = %s\n", str3);
+
+        return 0;
+        }
+
+        int my_strlen(char str[])
+        {
+            int i = 0;
+            while(str[i] != 0)
+            i++;
+
+            return i;
+        }
+
+        char* my_strcpy(char dest[], char src[])
+        {
+            int i = 0;
+            for(i = 0; src[i] != 0; i++)
+            dest[i] = src[i];
+
+            dest[i] = 0;// null
+
+            return dest;
+        }
+        /*
+        char* my_strcat(char dest[], char src[])
+
+        {
+        int dest_len = 0;       // the length of dest
+        char result[256] = " ";
+        int i = 0;
+        int j =0;
+        // copy scr[i] to dest[i + dest_len], for all i's
+
+        for(i = 0; i < dest[i] != 0; i++){
+        result[i] = dest[i];
+        }
+        for(j=0; j< src[j] != 0; j++){
+        result[i+j] = src[i];
+        }
+
+        result[i+j] = 0;
+
+        return result;
+        */
+
+
+        //     dest == "HELLO"
+        //     src == "ABCDE"
+        //     after function call, dest should be "HELLOABCDE" 
+
+        char* my_strcat(char dest[], char src[])
+        {
+            //    my_strcpy(dest + my_strlen(dest), src);   // the simplest solution
+
+            int dest_len = 0;    
+            // get the length of dest
+            while(dest[dest_len] != 0)
+            dest_len++;
+
+            // copy src[i] to dest[i + dest_len], for all i's
+            int i = 0; 
+            for(i = 0; src[i] != 0; i++)
+            dest[i + dest_len] = src[i];
+
+            dest[i + dest_len] = 0;
+
+            return dest;
+        }
+
+
+        int my_strcmp(char str1[], char str2[])
+        {
+            int i = 0;
+            int j = 0;
+            int retval = 0;
+            for(i = 0; i < str1[i] != 0; i++){
+                for(j = 0; j < str2[j] != 0; j++){
+                    if(str1[i] == str2[j])
+                    retval = 0;
+                    else if(str1[i] < str2[j])
+                    retval = -1;
+                    else
+                    retval = 1;
+                }
+            }
+            return retval;
+        }
+
+
+        /*
+        dest == "HELLO"
+        src == "ABCDE"
+        after function call, dest should be "HELLOABCDE" 
+
+        */
+        /*
+        char* my_strcat(char dest[], char src[])
+        {
+            char *p = dest;
+            while(*p != 0)
+            p++;
+
+            while(*src != 0)
+                *(p++) = *(src++);
+            *p = 0;
+
+            return dest;
+        }
+        */
+
+        /*
+        int my_strcmp(char str1[], char str2[])
+        {
+            int i = 0;
+
+            for(i = 0; str1[i] == str2[i] && str1[i] != 0; i++){}
+
+            return (int)str1[i] - (int)str2[i];
+        }
+        */
+
+
+
+
+# summarize
+
+## String length
+
+size_t strlen( const char* str );
+
+## String copy
+
+char* strcpy( char* dest, const char* src );
+
+char *strncpy( char *dest, const char *src, size_t count );
+
+errno_t strcpy_s( char *dest, rsize_t destsz, const char *src );
+
+
+## String concatenation
+
+char *strcat( char *dest, const char *src );
+
+char *strncat( char *dest, const char *src, size_t count);
+
+errno_t strcat_s(char *dest, rsize_t destsz, const char *src
+);
+
+## String comparison
+
+int strcmp( const char *lhs, const char *rhs );
+
+int strncmp( const char *lhs, const char *rhs, size_t count );
+
+
+
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <string.h>
+
+        #define FILE_NAME "studentInfo.txt"
+
+        #define MAX_STUDENT 512
+
+        char ID[MAX_STUDENT][16] = { 0 };
+        char first_name[MAX_STUDENT][64] = { 0 };
+        char second_name[MAX_STUDENT][64] = { 0 };
+        char tel[MAX_STUDENT][32] = { 0 };
+        int n = 0;
+
+        int main(){
+
+        FILE *fp = fopen(FILE_NAME,"r");
+        if(fp == NULL){
         printf("Failed to open file %s.\n", FILE_NAME);
         exit(-1);
-    }
+        }
 
-    int ret = 0;
-    for(n = 0; ret != EOF; n++){
+        int ret = 0;
+        for(n = 0; ret != EOF; n++){
         ret = fscanf(fp,"%s", ID[n]);
         if(ret == EOF)
-            break;
+        break;
 
         fscanf(fp,"%s", first_name[n]);
         fscanf(fp,"%s", last_name[n]);
         fscanf(fp,"%s", tel[n]);
 
-    }
+        }
 
-    fclose(fp);
+        fclose(fp);
 
-    printf("Totally, %d students. \n", n);
-    for(int i = 0; i<n; i++){
+        printf("Totally, %d students. \n", n);
+        for(int i = 0; i<n; i++){
         printf("%d) %s %s %s %s\n", i, ID[i], first_name[i], last_name[i], tel[i]);
-    }
+        }
 
-    char target_name[64] = "";
-    // read target name
-    printf("Input first name to find: ");
-    scanf("%s", target_names);
+        char target_name[64] = "";
+        // read target name
+        printf("Input first name to find: ");
+        scanf("%s", target_names);
 
-    // find the index of the target name
-    int p = 0;
-    for([p=0; p<n; p++){
-    //    if(first_name[p] == target_name) // compares the addresses of first_name[p] amd target_name (incorrect)
+        // find the index of the target name
+        int p = 0;
+        for([p=0; p<n; p++){
+        //    if(first_name[p] == target_name) // compares the addresses of first_name[p] amd target_name (incorrect)
         if(strcmp(first_name[p], target_name) == 0) // compares the contents of first_name[p] and target_name
-            break;
-    }
+        break;
+        }
 
-    //display the result
-    if(p == n)
+        //display the result
+        if(p == n)
         printf("Failed to find name %s.\n",target_name);
-    else
+        else
         printf("The phone number of %s is %s.\n", target_name, tel[p]);
 
-    return 0;
-}
+        return 0;
+        }
 
 
 
 
-/*
+        /*
 
-string manuplation functions (declared in string.h)
-// #include <string.h>
+        string manuplation functions (declared in string.h)
+        // #include <string.h>
 
-char str1[64] = "ABC";
-char str2[64] = "123";
+        char str1[64] = "ABC";
+        char str2[64] = "123";
 
-*string comparison
-    int strcmp(const char str1[], const char str2[]);
+        *string comparison
+        int strcmp(const char str1[], const char str2[]);
         compares the contents of str1 and str2
         if str1 is the same as str2, returns 0
         if str1 precedes str2, returns a negative number
         if str2 precedes str1, returns a positive number
 
-    if(str1 == str2)      // compares addresses (incorrect)
-    if(strcmp(str1, str2) == 0)   // compares contents (correct)
-    if(*str1 == *str2)      // compares only the first characters (incorrect)   *str1 == str1[0]
+        if(str1 == str2)      // compares addresses (incorrect)
+        if(strcmp(str1, str2) == 0)   // compares contents (correct)
+        if(*str1 == *str2)      // compares only the first characters (incorrect)   *str1 == str1[0]
 
-* string copy
-    str2 = str1;        // incorrect
+        * string copy
+        str2 = str1;        // incorrect
 
-    strcpy(str2, str1) // correct
+        strcpy(str2, str1) // correct
 
-    char* strcpy(char dest[], const char src[]);
+        char* strcpy(char dest[], const char src[]);
         copy the content of src to dest
 
-* string concatenation
+        * string concatenation
 
-    str3 = str1 + str2; // to make "ABC123" (incorrect)
+        str3 = str1 + str2; // to make "ABC123" (incorrect)
 
-    char* strcat(char dest[], const char src[]);
+        char* strcat(char dest[], const char src[]);
 
-    strcpy(str3, str1);
-    // str3 == "ABC"
-    strcat(str3, str2);
-    // str3 == "ABC123"
+        strcpy(str3, str1);
+        // str3 == "ABC"
+        strcat(str3, str2);
+        // str3 == "ABC123"
 
 
 
-address operator &: variable --> address
-dereferencing operator *: address --> content (variable)
 
-    The operand of * should be a pointer.
+        address operator &: variable --> address
+        dereferencing operator *: address --> content (variable)
+
+        The operand of * should be a pointer.
+
+
+
+
+
+
+
+
 
 
 
 
 
 ## [Structure]
+
