@@ -1,5 +1,4 @@
-# Quiz--2
-# Quiz
+# Quiz-2 정리
 <주의사항>
 
 학생들이 strings 과 structures 구문을 외워 기말고사를 잘 준비할 수 있도록 유도하는 퀴즈
