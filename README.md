@@ -437,17 +437,66 @@ int strncmp( const char *lhs, const char *rhs, size_t count );
 
         The operand of * should be a pointer.
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## [Structure]
+
+### typedef
+*       void * malloc(size_t size);
+* typedef <existing type> <new_type>;
+    
+        typedef unsigned int size_t;
+
+        typedef int INTEGER;
+        INTEGER x;
+
+        typedef char* STRING;
+        STRING stringPtrArray[20];
+
+### Enumerated type
+*       enum tag { identifier_list};
+        
+        enum Color {RED, BLUE, GREEN, WHITE};
+
+* Function parameter
+
+        int func(enum Color curColor);
+* Definition of Color type
+    
+        enum Color {RED, BLUE, GREEN, WHITE};
+* variable declarations
+    enum Color x, y, z;
+
+### Structures
+* struct [tag] {
+    field list // field (member variable) declarations
+};
+
+        경우 1
+        struct STUDENT{
+            char id[10];
+            char name[26];
+            enum Major major;
+        };
+
+        경우 2
+        typedef struct{
+            char id[10];
+            char name[26];
+            enum Major major;
+        }STUDENT;
+
+
+* Defining structure VS Declaring structure variable
+
+    making molding frame VS making a product by molding
+
+* Structure Variable Declaration
+    struct tag var_name;
+        
+        경우 1 : struct STUDENT student[50];
+
+    typename var_name;
+
+        경우 2 : STUDENT student[50];
+        
+### Unions
 
