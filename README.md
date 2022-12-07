@@ -468,6 +468,99 @@ int strncmp( const char *lhs, const char *rhs, size_t count );
 * variable declarations
     enum Color x, y, z;
 
+
+    EXAMPE
+
+            /*
+        // syntax
+        //    sprintf(string, format_string, value_list);
+        //    sscanf(string, format_string, address_list);
+
+        char str[100];
+        int x = 123;
+        // convert x into string
+        sprintf(str, "%d", x);
+
+
+        char str[] = "ABC 123";
+        char s1[100] = "";
+        int x = 0;
+
+        // convert str into a string (s1) and an integer (x)
+        sscanf(str, "%s %d", s1, &x);
+
+        */
+
+        #include <stdio.h>
+
+        // #define HDH 1
+        // #define NTH 2
+        // #define NMH 3
+        // #define OH 4
+
+        // enum <tag> { list_of_symbols };
+        enum BUILDING_IDs { UNKNOWN, HDH, NTH, NMH, OH }; 
+
+        // typedef <existing_type> <new_type_name>;
+        typedef enum BUILDING_IDs building_id;
+
+        //void PrintBuildingName(int buildingID);
+        //void PrintBuildingName(enum BUILDING_IDs buildingID);
+        void PrintBuildingName(building_id buildingID);
+
+        int main()
+        {
+        //    int buildingID = 0;
+        //    enum BUILDING_IDs buildingID = 0;
+            building_id buildingID = 0;
+
+            printf("What building are you staying in? (1: HDH, 2: NTH, 3: NMH, 4: OH): ");
+
+            scanf("%d", &buildingID);
+
+            printf("Good! You are staying in ");
+            PrintBuildingName(buildingID);
+            printf(".\n");
+
+            return 0;
+        }
+
+        //void PrintBuildingName(int buildingID)
+        //void PrintBuildingName(enum BUILDING_IDs buildingID)
+        void PrintBuildingName(building_id buildingID)
+        {
+            switch(buildingID){
+        //    case 1:
+            case HDH:
+                printf("HDH");
+                break;
+
+        //    case 2:
+            case NTH:
+                printf("NTH");
+                break;
+
+        //    case 3:
+            case NMH:
+                printf("NMH");
+                break;
+
+        //    case 4:
+            case OH:
+                printf("OH");
+                break;
+
+            default:
+                printf("Unknown building name");
+                break;
+            }
+        }
+
+        /*
+        define an enumeration for colors (COLORS)
+        BLUE, RED, GREEN, WHITE, BLACK 
+        */
+
 ### Structures
 * struct [tag] {
     field list // field (member variable) declarations
@@ -644,3 +737,263 @@ Example : Clock
 ### Unions
 
 * 
+
+
+EXAMPLE
+
+        structure: a custom data type that combines existing types
+        declare a structure to represent computers (name: Computer)
+        a computer is represented by the CPU model, RAM size, and SSD size
+
+        struct tComputer {
+        char CPU[64];
+        int RAM;
+        int SSD;   
+        };
+
+        typedef struct {
+        char CPU[64];
+        int RAM;
+        int SSD;
+        } Computer;
+
+        structure variable: 
+        declare a structure variable 'comp'
+
+        Computer comp = { "" };
+
+        structure pointer:
+        declare a structure pointer 'comp_ptr'
+
+        Computer *comp_ptr = NULL;
+
+        Set comp to ("Ryzen 5600", 16, 512)
+
+        strcpy(comp.CPU, "Ryzen 5600");
+        comp.RAM = 16;
+        comp.SSD = 512;
+
+        Set comp to ("Ryzen 5600G", 32, 1024) through comp_ptr
+
+        comp_ptr = &comp;      // makes the relation comp_ptr -----> comp
+
+        strcpy(comp_ptr->CPU, "Ryzen 5600G");
+        comp_ptr->RAM = 32;
+        comp_ptr->SSD = 1024;
+        */
+
+
+        /*
+        Stamp.min    INCORRECT
+        stamp.min    INCORRECT
+        Stamp.Time.min INCORRECT
+        stamp.time.min CORRECT
+
+        <struct_variable>.<field_name>
+
+        */
+
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        #define FILE_NAME "studentInfo.txt"
+        #define MAX_STUDENT 256
+
+        char ID[MAX_STUDENT][16] = { 0 };
+        char first_name[MAX_STUDENT][64] = { 0 };
+        char last_name[MAX_STUDENT][64] = { 0 };
+        char tel[MAX_STUDENT][16] = { 0 };
+
+        // TO DO: declare a structure to represent students (name it Student)
+        typedef struct{
+            char ID[16];
+            char first_name[64];
+            char last_name[64];
+            char tel[16];
+        }Student;
+
+        int main(){
+        // TO DO: declare an array of Student
+            Student student[MAX_STUDENT]; // students[i].ID is the i-th element
+
+        int no_student = 0;
+
+
+        // TO DO: modify main to work with the struct array
+
+            // open file
+            FILE *fp = fopen(FILE_NAME, "r");
+            if(fp == NULL){
+                printf("Failed to open %s.\n", FILE_NAME);
+                exit(-1);
+            }
+
+            // read student info
+            while(1){
+                int ret = fscanf(fp, "%s", student[no_student].ID);
+                if(ret == EOF)
+                    break;
+                    
+                fscanf(fp, "%s", student[no_student].first_name);
+                fscanf(fp, "%s", student[no_student].last_name);
+                fscanf(fp, "%s", student[no_student].tel);
+
+                no_student++;
+            }
+
+            // close file
+            fclose(fp);
+
+            // display student info
+            for(int i = 0; i < no_student; i++)
+                printf("%s %s %s %s\n", student[i].ID, student[i].first_name, student[i].last_name, student[i].tel);
+
+            return 0;
+        }
+
+        /*
+        // Mission: rewrite this program using structures
+
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        #define FILE_NAME "studentInfo.txt"
+        #define MAX_STUDENT 256
+
+        // char ID[MAX_STUDENT][16] = { 0 };
+        // char first_name[MAX_STUDENT][64] = { 0 };
+        // char last_name[MAX_STUDENT][64] = { 0 };
+        // char tel[MAX_STUDENT][16] = { 0 };
+
+        // TO DO: declare a structure to represent students (name it Student)
+        typedef struct {
+            char ID[16];
+            char first_name[64];
+            char last_name[64];
+            char tel[16];
+        } Student;
+
+        // TO DO: declare an array of Student
+        //Student students[MAX_STUDENT];      // students[i] is the i-th element
+        Student *students[MAX_STUDENT];      // students[i] is the i-th element
+        int no_student = 0;
+
+
+        // TO DO: modify main to work with the struct array
+
+
+        int main()
+        {
+            // open file
+            FILE *fp = fopen(FILE_NAME, "r");
+            if(fp == NULL){
+                printf("Failed to open %s.\n", FILE_NAME);
+                exit(-1);
+            }
+
+            // read student info
+            while(1){
+                // dynamic memory allocation
+                students[no_student] = (Student*)malloc(sizeof(Student));
+
+        //        int ret = fscanf(fp, "%s", ID[no_student]);
+                int ret = fscanf(fp, "%s", students[no_student]->ID);
+                if(ret == EOF)
+                    break;
+                    
+                fscanf(fp, "%s", students[no_student]->first_name);
+                fscanf(fp, "%s", students[no_student]->last_name);
+                fscanf(fp, "%s", students[no_student]->tel);
+
+                no_student++;
+            }
+
+            // close file
+            fclose(fp);
+
+            // display student info
+            for(int i = 0; i < no_student; i++)
+                printf("%s %s %s %s\n", students[i]->ID, students[i]->first_name, students[i]->last_name, students[i]->tel);
+
+
+            // deallocate all dynamic memory blocks
+            for(int i = 0; i < no_student; i++){
+                free(students[i]);
+                students[i] = NULL;         // for safety
+            }
+
+            return 0;
+        }
+
+        */
+
+
+
+        #include <stdio.h>
+
+    // declare a structure to represent fractions
+    typedef struct{
+        int numerator;
+        int denominator;
+    }Fraction;
+
+
+    Fraction MultiplyFraction(Fraction f1, Fraction f2);
+
+    int main(){
+
+        // declare three fraction variables, fr1, fr2, and res 
+        Fraction fr1;
+        Fraction fr2;
+        Fraction res;
+
+        // read two fractions fr1 and fr2 from the user
+        printf("Fraction numerator and denominator x/y: ");
+        scanf("%d/%d", &fr1.numerator, &fr1.denominator);
+
+        printf("Fraction numerator and denominator x/y: ");
+        scanf("%d/%d", &fr2.numerator, &fr2.denominator);
+
+        // multiply fr1 and fr2 into res
+        
+        Fraction MultiplyFraction(fr1, fr2);
+        // res.numerator = fr1.numerator * fr2.numerator;
+        // res.denominator = fr1.denominator * fr2.denominator;
+
+        // display result
+        printf("numerator : %d, denominator : %d\n",res.numerator, res.denominator);
+
+        return 0;
+
+    }
+
+    // Next mission:
+    //    * write the following function
+    //    Fraction MultiplyFraction(Fraction f1, Fraction f2);
+
+    //    * simplify main() using MultiplyFraction()
+
+    Fraction MultiplyFraction(Fraction f1, Fraction f2)
+    {
+        Fraction res;
+        ret.num = fr1.num * fr2.num;
+        ret.denom = fr1.denom * fr2.denom;
+
+        return ret;    
+    }
+
+
+    /*
+    Fighter.type = 'A';     // wrong unless type is a static field
+    f.type = 'A';           // correct
+    */
+
+
+    /*
+    *ptr === sam1
+    ptr->x === (*ptr).x === sam1.x
+    *ptr.x === *(ptr.x) != sam1.x
+
+    for a structure variable, use . operator (e.g., sam1.x)
+    for a structure pointer, use -> operator (e.g., ptr->x)
+    */
